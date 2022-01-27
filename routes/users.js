@@ -1,6 +1,7 @@
 import express from "express";
 import Joi from "joi";
 import { readUsers, writeUsers } from "../data/adapter.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -28,9 +29,11 @@ router.post("/", async (req, res) => {
     res.status(400).send("user exist");
     return;
   } else {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = {
       username: req.body.username,
-      password: req.body.password,
+      password: hashedPassword,
     };
 
     users.push(user);
