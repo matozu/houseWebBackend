@@ -14,6 +14,7 @@ function validateDay(day) {
 }
 
 router.get("/", async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   res.send(await readData());
 });
 
@@ -27,8 +28,10 @@ router.get("/:date", async (req, res) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
+  // auth removed
   const { error } = validateDay(req.body);
+  res.header("Access-Control-Allow-Origin", "*");
   if (error) {
     res.status(400).send(error.message);
     return;
