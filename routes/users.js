@@ -2,6 +2,7 @@ import express from "express";
 import Joi from "joi";
 import { readUsers, writeUsers } from "../data/adapter.js";
 import bcrypt from "bcrypt";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -12,6 +13,10 @@ function validateUser(user) {
   });
   return schema.validate(user);
 }
+
+router.get("/me", auth, (req, res) => {
+  res.send(req.user._username);
+});
 
 router.get("/", async (req, res) => {
   res.send(await readUsers());
@@ -43,7 +48,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/:username", async (req, res) => {
+router.delete("/:username", auth, async (req, res) => {
   const users = await readUsers();
   const user = users.find((u) => u.username === req.params.username);
   if (user) {

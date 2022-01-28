@@ -1,6 +1,7 @@
 import express from "express";
 import Joi from "joi";
 import { readData, writeData } from "../data/adapter.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get("/:date", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const { error } = validateDay(req.body);
   if (error) {
     res.status(400).send(error.message);
@@ -68,7 +69,7 @@ router.put("/:date", async (req, res) => {
   // res.send(dayInDb)
 });
 
-router.delete("/:date", async (req, res) => {
+router.delete("/:date", auth, async (req, res) => {
   const data = await readData();
   const day = data.find((d) => d.date === req.params.date);
   if (day) {
