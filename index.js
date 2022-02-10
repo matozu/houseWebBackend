@@ -12,7 +12,7 @@ app.use(express.static("public"));
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", auth);
-app.use(helmet);
+app.use(helmet());
 app.use(compression);
 
 const port = process.env.PORT || 5000; // PORT or port?
