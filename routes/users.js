@@ -9,7 +9,7 @@ const router = express.Router();
 function validateUser(user) {
   const schema = Joi.object({
     username: Joi.string().min(3).max(25).required(),
-    password: Joi.string().min(5).max(255).required(),
+    password: Joi.string().min(3).max(255).required(),
   });
   return schema.validate(user);
 }

@@ -9,13 +9,37 @@ function validateDay(day) {
   const schema = Joi.object({
     date: Joi.date().required(),
     text: Joi.string().required(),
+    username: Joi.string().required(),
   });
   return schema.validate(day);
 }
 
+const sortFunction = (a, b) => {
+  if (a.date > b.date) {
+    return 1;
+  } else if (a.date < b.date) {
+    return -1;
+  } else {
+    return 0;
+  }
+};
+
+const groupBy = (items, key) =>
+  items.reduce(
+    (result, item) => ({
+      ...result,
+      [item[key]]: [...(result[item[key]] || []), item],
+    }),
+    {}
+  );
+
 router.get("/", async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.send(await readData());
+  const data = await readData();
+
+  const sortedData = data.sort(sortFunction);
+
+  const grouped = groupBy(sortedData, "date");
+  res.send(grouped);
 });
 
 router.get("/:date", async (req, res) => {
@@ -28,62 +52,64 @@ router.get("/:date", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  // auth removed
+router.post("/", auth, async (req, res) => {
   const { error } = validateDay(req.body);
-  res.header("Access-Control-Allow-Origin", "*");
   if (error) {
     res.status(400).send(error.message);
     return;
   }
 
   const day = {
+    id: Date.now().toString(),
     date: req.body.date,
     text: req.body.text,
+    username: req.body.username,
   };
 
   const data = await readData();
-  const existingDay = data.find((d) => d.date === day.date);
-  if (existingDay) {
-    existingDay.text = `${existingDay.text} \n ${day.text}`;
-  } else {
-    data.push(day);
-  }
+  data.push(day);
 
   const w = await writeData(JSON.stringify(data));
-  console.log(w);
-  res.send(existingDay ?? day);
+
+  const sortedData = data.sort(sortFunction);
+  const grouped = groupBy(sortedData, "date");
+  res.send(grouped);
 });
 
-router.put("/:date", async (req, res) => {
-  const { error } = validateDay(req.body);
-  if (error) {
-    res.status(400).send(error.message);
-    return;
+router.put("/", auth, async (req, res) => {
+  try {
+    const data = await readData();
+    const note = data.find((note) => note.id === req.body.id);
+    note.text = req.body.text;
+
+    await writeData(JSON.stringify(data));
+
+    res.send(note);
+  } catch (e) {
+    res.status(404).send("error in put request!");
   }
-
-  const data = await readData();
-
-  res.send(req.body);
-
-  // update
-  // dayindb = req.body
-
-  // res.send(dayInDb)
 });
 
-router.delete("/:date", auth, async (req, res) => {
-  const data = await readData();
-  const day = data.find((d) => d.date === req.params.date);
-  if (day) {
-    const index = data.indexOf(day);
-    if (index != -1) {
-      data.splice(index, 1);
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const data = await readData();
+    const day = data.find((d) => d.id == req.params.id);
+    if (!day) {
+      console.log(req.params.id + " not found");
+      // res.status(404).send("id not found!!!!!");
+    } else {
+      const index = data.indexOf(day);
+      if (index != -1) {
+        data.splice(index, 1);
+      }
     }
-    const w = await writeData(JSON.stringify(data));
-    res.send(day);
-  } else {
-    res.status(404).send("date not found!");
+    await writeData(JSON.stringify(data));
+
+    const sortedData = data.sort(sortFunction);
+    const grouped = groupBy(sortedData, "date");
+    res.send(grouped);
+  } catch (e) {
+    console.log(e);
   }
 });
 

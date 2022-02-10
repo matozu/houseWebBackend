@@ -10,7 +10,7 @@ const router = express.Router();
 function validate(req) {
   const schema = Joi.object({
     username: Joi.string().min(3).max(25).required(),
-    password: Joi.string().min(5).max(255).required(),
+    password: Joi.string().min(3).max(255).required(),
   });
 
   return schema.validate(req);
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   const users = await readUsers();
 
   const user = users.find((u) => u.username === req.body.username);
-  if (!user) return res.status(400).send("invalid email or password");
+  if (!user) return res.status(400).send("invalid email or password!!!");
 
   const isValidPassword = await bcrypt.compare(
     req.body.password,
@@ -41,11 +41,13 @@ router.post("/", async (req, res) => {
     );
     return res
       .header("x-auth-token", token)
-      .send(
-        privateKey
+      .header("access-control-expose-headers", "x-auth-token")
+      .send({
+        username: user.username,
+        pk: privateKey
           ? "private key from environment variable"
-          : "environment variable backendWebHouse_privateKey not found! using temporary privatekey"
-      );
+          : "environment variable backendWebHouse_privateKey not found! using temporary privatekey",
+      });
   } else {
     return res.status(400).send("invalid email or password");
   }
