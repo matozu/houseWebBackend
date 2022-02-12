@@ -4,8 +4,10 @@ import usersRoutes from "./routes/users.js";
 import auth from "./routes/auth.js";
 import helmet from "helmet";
 import compression from "compression";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
