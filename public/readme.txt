@@ -1,1 +1,1 @@
-readme file in frontend
+readme file in public frontend folder
