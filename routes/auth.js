@@ -39,12 +39,15 @@ router.post("/", async (req, res) => {
       { _username: user.username },
       privateKey ?? "privateKey"
     );
-    return res.header("x-auth-token", token).send({
-      username: user.username,
-      pk: privateKey
-        ? "private key from environment variable"
-        : "environment variable backendWebHouse_privateKey not found! using temporary privatekey",
-    });
+    return res
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
+      .send({
+        username: user.username,
+        pk: privateKey
+          ? "private key from environment variable"
+          : "environment variable backendWebHouse_privateKey not found! using temporary privatekey",
+      });
   } else {
     return res.status(400).send("invalid username or password");
   }
