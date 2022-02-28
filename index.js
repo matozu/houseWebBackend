@@ -7,10 +7,12 @@ import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
 
-const mongodgUri = process.env.MONGODB_URI;
+//const mongodgUri = process.env.MONGODB_URI;
 
 mongoose
-  .connect(mongodgUri)
+  .connect(
+    "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority"
+  )
   .then(() => console.log("connected to db..."))
   .catch((err) => console.log("Could not connect to mongoDb..."));
 // mongoose
