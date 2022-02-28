@@ -8,9 +8,15 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 mongoose
-  .connect("mongodb://localhost/houseweb")
+  .connect(
+    "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority"
+  )
   .then(() => console.log("connected to db..."))
   .catch((err) => console.log("Could not connect to mongoDb..."));
+// mongoose
+//   .connect("mongodb://localhost/houseweb")
+//   .then(() => console.log("connected to db..."))
+//   .catch((err) => console.log("Could not connect to mongoDb..."));
 
 const app = express();
 app.use(cors());
