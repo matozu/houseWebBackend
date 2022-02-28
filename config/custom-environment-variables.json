@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "houseWebBackend_privateKey"
+  "jwtPrivateKey": "houseWebBackend_privateKey",
+  "mongodbUri": "houseweb_mongodb_uri"
 }
