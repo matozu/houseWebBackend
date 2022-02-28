@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import config from "config";
 import express from "express";
 import Joi from "joi";
-import { readUsers } from "../data/adapter.js";
 import bcrypt from "bcrypt";
+import User from "../data/user.js";
 
 const router = express.Router();
 
@@ -23,9 +23,8 @@ router.post("/", async (req, res) => {
     return;
   }
 
-  const users = await readUsers();
+  const user = await User.findOne({ username: req.body.username });
 
-  const user = users.find((u) => u.username === req.body.username);
   if (!user) return res.status(400).send("invalid username or password!!!");
 
   const isValidPassword = await bcrypt.compare(

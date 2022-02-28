@@ -5,6 +5,12 @@ import auth from "./routes/auth.js";
 import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
+import mongoose from "mongoose";
+
+mongoose
+  .connect("mongodb://localhost/houseweb")
+  .then(() => console.log("connected to db..."))
+  .catch((err) => console.log("Could not connect to mongoDb..."));
 
 const app = express();
 app.use(cors());
