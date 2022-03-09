@@ -51,7 +51,6 @@ router.put("/", auth, async (req, res) => {
 
 router.delete("/:id", auth, async (req, res) => {
   try {
-    console.log(req.params.id);
     const result = await Note.deleteOne({ _id: req.params.id });
     res.send(result);
   } catch (e) {
