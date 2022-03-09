@@ -35,7 +35,7 @@ const port = process.env.PORT || 5000; // PORT or port?
 const httpServer = http.createServer(app);
 // const io = addSocketIO(httpServer);
 
-const server = httpServer.listen(5000, () => {
+const server = httpServer.listen(port, () => {
   const { port } = server.address();
   console.log("Listen on port " + port);
 });
