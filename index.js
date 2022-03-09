@@ -33,7 +33,7 @@ app.use(compression);
 const port = process.env.PORT || 5000; // PORT or port?
 
 const httpServer = http.createServer(app);
-// const io = addSocketIO(httpServer);
+const io = addSocketIO(httpServer);
 
 const server = httpServer.listen(port, () => {
   const { port } = server.address();
