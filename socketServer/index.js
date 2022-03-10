@@ -25,7 +25,7 @@ const middleware = (socket, next) => {
 const addSocketIO = (httpServer) => {
   const io = new Server(httpServer, {
     cors: {
-      origin: ["https://houseweb.herokuapp.com/", "https://admin.socket.io"],
+      origin: ["https://houseweb.herokuapp.com", "https://admin.socket.io"],
       methods: ["GET", "POST"],
     },
   });
