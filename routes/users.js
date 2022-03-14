@@ -18,11 +18,12 @@ router.get("/me", auth, (req, res) => {
   res.send(req.user._username);
 });
 
-router.get("/", async (req, res) => {
-  res.send(await User.find());
+router.get("/", auth, async (req, res) => {
+  const users = await User.find({ username: { $ne: req.user._username } });
+  res.send(users);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) {
     res.status(400).send(error.message);

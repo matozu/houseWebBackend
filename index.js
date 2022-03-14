@@ -10,7 +10,9 @@ import mongoose from "mongoose";
 import http from "http";
 import addSocketIO from "./socketServer/index.js";
 
-const mongodbUri = process.env.MONGODB_URI;
+const mongodbUri =
+  process.env.MONGODB_URI ||
+  "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority";
 mongoose
   .connect(mongodbUri)
   .then(() => console.log("connected to db..."))
@@ -35,5 +37,6 @@ const io = addSocketIO(httpServer);
 
 const server = httpServer.listen(port, () => {
   const { port } = server.address();
+  console.log(mongodbUri);
   console.log("Listen on port " + port);
 });

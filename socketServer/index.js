@@ -69,7 +69,7 @@ const addSocketIO = (httpServer) => {
         });
 
         message = await message.save();
-        console.log("message saved");
+        socket.send(message);
       } catch (e) {
         console.log(e);
       }
@@ -77,7 +77,6 @@ const addSocketIO = (httpServer) => {
       io.sockets.sockets.forEach((s) => {
         if (s.user._username === postedMessage.to) {
           s.send(message);
-          socket.send(message);
         }
       });
     });
