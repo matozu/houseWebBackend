@@ -9,6 +9,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import http from "http";
 import addSocketIO from "./socketServer/index.js";
+import ImagesRoutes from "./routes/images.js";
 
 const mongodbUri =
   process.env.MONGODB_URI ||
@@ -27,6 +28,7 @@ app.use("/api/schedule", scheduleRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", auth);
 app.use("/api/messages", MessageRoutes);
+app.use("/api/images", ImagesRoutes);
 app.use(helmet());
 app.use(compression);
 
