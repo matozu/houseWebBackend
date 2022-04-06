@@ -32,7 +32,7 @@ app.use("/api/images", ImagesRoutes);
 app.use(helmet());
 app.use(compression);
 
-const port = process.env.PORT || 5000; // PORT or port?
+const port = process.env.PORT || 5000;
 
 const httpServer = http.createServer(app);
 const io = addSocketIO(httpServer);
