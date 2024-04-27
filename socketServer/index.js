@@ -29,8 +29,7 @@ const addSocketIO = (httpServer) => {
     cors: {
       origin: [
         "http://localhost:5000",
-        "https://houseweb.herokuapp.com",
-        "http://houseweb.herokuapp.com",
+        "https://housewebbackend.onrender.com/",
         "https://admin.socket.io",
       ],
       methods: ["GET", "POST"],
