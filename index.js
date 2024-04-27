@@ -10,10 +10,17 @@ import mongoose from "mongoose";
 import http from "http";
 import addSocketIO from "./socketServer/index.js";
 import ImagesRoutes from "./routes/images.js";
+import config from "config";
+
+// if (!config.get("jwtPrivateKey")) {
+//   console.log("FATAL ERROR: jwtPrivateKey is not defined");
+//   process.exit(1);
+// }
 
 const mongodbUri =
   process.env.MONGODB_URI ||
   "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority";
+//  "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/?retryWrites=true&w=majority";
 mongoose
   .connect(mongodbUri)
   .then(() => console.log("connected to db..."))

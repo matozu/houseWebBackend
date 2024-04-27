@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 
   const user = await User.findOne({ username: req.body.username });
 
-  if (!user) return res.status(400).send("invalid username or password!!!");
+  if (!user) return res.status(400).send("invalid username!");
 
   const isValidPassword = await bcrypt.compare(
     req.body.password,
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
           : "environment variable backendWebHouse_privateKey not found! using temporary privatekey",
       });
   } else {
-    return res.status(400).send("invalid username or password");
+    return res.status(400).send("invalid password");
   }
 });
 
