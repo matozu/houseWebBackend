@@ -29,7 +29,7 @@ const addSocketIO = (httpServer) => {
     cors: {
       origin: [
         "http://localhost:5000",
-        "https://housewebbackend.onrender.com/",
+        "https://housewebbackend.onrender.com",
         "https://admin.socket.io",
       ],
       methods: ["GET", "POST"],
