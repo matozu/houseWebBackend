@@ -30,9 +30,9 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-  res.send(`Server je pokrenut na portu ----> ${port}`);
-});
+// app.get("/", (req, res) => {
+//   res.send(`Server je pokrenut na portu ----> ${port}`);
+// });
 
 app.use(cors());
 app.use(express.json());
