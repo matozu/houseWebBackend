@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
 app.use(cors());
 app.use(express.json());
-// app.use(express.static("public"));
+app.use(express.static("public"));
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", auth);
