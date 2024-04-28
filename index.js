@@ -28,9 +28,15 @@ mongoose
 
 const app = express();
 
+const port = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
+  res.send(`Server je pokrenut na portu ${port}`);
+});
+
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
+// app.use(express.static("public"));
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", auth);
@@ -38,8 +44,6 @@ app.use("/api/messages", MessageRoutes);
 app.use("/api/images", ImagesRoutes);
 app.use(helmet());
 app.use(compression);
-
-const port = process.env.PORT || 5000;
 
 const httpServer = http.createServer(app);
 const io = addSocketIO(httpServer);
