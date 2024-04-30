@@ -29,6 +29,7 @@ const addSocketIO = (httpServer) => {
     cors: {
       origin: [
         "http://localhost:5000",
+        "http://localhost:3000",
         "https://housewebbackend.onrender.com",
         "https://admin.socket.io",
       ],
@@ -100,6 +101,8 @@ const addSocketIO = (httpServer) => {
           from: socket.user._username,
           read: false,
         });
+
+        console.log(message);
 
         message = await message.save();
         socket.send(message);
