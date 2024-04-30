@@ -18,9 +18,8 @@ if (!config.get("jwtPrivateKey")) {
 }
 console.log("jwtPrivateKey : ", config.get("jwtPrivateKey"));
 
-const mongodbUri =
-  process.env.MONGODB_URI ||
-  "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority";
+const mongodbUri = process.env.MONGODB_URI || config.get("mongodburi");
+// "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority"
 
 mongoose
   .connect(mongodbUri)

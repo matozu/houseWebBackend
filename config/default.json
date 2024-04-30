@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": null
+  "jwtPrivateKey": null,
+  "mongodburi": null
 }
