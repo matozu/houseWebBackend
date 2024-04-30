@@ -12,11 +12,12 @@ import addSocketIO from "./socketServer/index.js";
 import ImagesRoutes from "./routes/images.js";
 import config from "config";
 
-// if (!config.get("jwtPrivateKey")) {
-//   console.log("FATAL ERROR: jwtPrivateKey is not defined");
-//   process.exit(1);
-// }
+if (!config.get("jwtPrivateKey")) {
+  console.log("FATAL ERROR: jwtPrivateKey is not defined");
+  process.exit(1);
+}
 console.log("jwtPrivateKey : ", config.get("jwtPrivateKey"));
+
 const mongodbUri =
   process.env.MONGODB_URI ||
   "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority";

@@ -35,10 +35,7 @@ router.post("/", async (req, res) => {
 
   if (isValidPassword) {
     const privateKey = config.get("jwtPrivateKey");
-    const token = jwt.sign(
-      { _username: user.username },
-      privateKey ?? "privateKey"
-    );
+    const token = jwt.sign({ _username: user.username }, privateKey);
     return res
       .header("x-auth-token", token)
       .header("access-control-expose-headers", "x-auth-token")

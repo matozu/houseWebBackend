@@ -11,10 +11,7 @@ const middleware = (socket, next) => {
     next(new Error("Access denied. No token provided."));
   } else {
     try {
-      const decoded = jwt.verify(
-        token,
-        config.get("jwtPrivateKey") ?? "privateKey"
-      );
+      const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
       socket.user = decoded;
       next();
     } catch (e) {
