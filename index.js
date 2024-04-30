@@ -17,6 +17,7 @@ if (!config.get("jwtPrivateKey")) {
   process.exit(1);
 }
 console.log("jwtPrivateKey : ", config.get("jwtPrivateKey"));
+console.log("mongobdburi : ", config.get("mongodburi"));
 
 const mongodbUri = process.env.MONGODB_URI || config.get("mongodburi");
 // "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority"
