@@ -16,11 +16,11 @@ import config from "config";
 //   console.log("FATAL ERROR: jwtPrivateKey is not defined");
 //   process.exit(1);
 // }
-
+console.log("jwtPrivateKey : ", config.get("jwtPrivateKey"));
 const mongodbUri =
   process.env.MONGODB_URI ||
   "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/houseweb?retryWrites=true&w=majority";
-//  "mongodb+srv://12345:12345@cluster0.okc6v.mongodb.net/?retryWrites=true&w=majority";
+
 mongoose
   .connect(mongodbUri)
   .then(() => console.log("connected to db..."))
@@ -29,10 +29,6 @@ mongoose
 const app = express();
 
 const port = process.env.PORT || 5000;
-
-// app.get("/", (req, res) => {
-//   res.send(`Server je pokrenut na portu ----> ${port}`);
-// });
 
 app.use(cors());
 app.use(express.json());
