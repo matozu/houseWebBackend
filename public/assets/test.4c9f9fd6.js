@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper.ddefbfc0.js";import{c as t,o,B as p}from"./vendor.8beb2fb1.js";const r={},s={class:"container"};function _(c,a,i,d,f,l){return o(),t("div",s,"test")}var n=e(r,[["render",_]]);p(n).mount("#app");

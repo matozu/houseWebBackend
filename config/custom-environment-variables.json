@@ -1,3 +1,5 @@
 {
-  "jwtPrivateKey": "houseWebBackend_privateKey"
+  "jwtPrivateKey": "houseWebBackend_privateKey",
+  "mongodburi": "houseWebBackend_mongodburi",
+  "mailkey": "houseWebBackend_mail_key"
 }

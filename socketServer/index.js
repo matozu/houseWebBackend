@@ -11,10 +11,7 @@ const middleware = (socket, next) => {
     next(new Error("Access denied. No token provided."));
   } else {
     try {
-      const decoded = jwt.verify(
-        token,
-        config.get("jwtPrivateKey") ?? "privateKey"
-      );
+      const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
       socket.user = decoded;
       next();
     } catch (e) {
@@ -44,7 +41,6 @@ const addSocketIO = (httpServer) => {
   function log() {
     console.log("connected users: ");
     io.sockets.sockets.forEach((s) => console.log(s.user._username));
-    console.log("-------------------------------------------------");
   }
 
   io.on("connection", async (socket) => {
@@ -60,7 +56,6 @@ const addSocketIO = (httpServer) => {
       if (!connectedUsernames.includes(socket.user._username)) {
         connectedUsernames.push(socket.user._username);
       }
-      console.log("cu->" + connectedUsernames);
 
       const usersWithStatus = users.map((u) => {
         if (connectedUsernames.find((cu) => cu === u.username)) {
@@ -73,22 +68,18 @@ const addSocketIO = (httpServer) => {
       socket.emit("connected", { messages: messages, users: usersWithStatus });
 
       socket.broadcast.emit("newUserConnected", socket.user._username);
-
-      console.log("----conection 4 " + socket.user._username + "-------");
       log();
     } catch (e) {
       console.log(e);
     }
 
     socket.on("disconnect", function () {
-      console.log("--------disconnect 4 " + socket.user._username + "--------");
-      log();
       connectedUsernames.splice(
         connectedUsernames.findIndex((u) => u === socket.user._username),
         1
       );
-      console.log("cu->" + connectedUsernames);
       socket.broadcast.emit("disconnected", socket.user._username);
+      log();
     });
 
     socket.on("postMessage", async (postedMessage) => {
@@ -101,8 +92,6 @@ const addSocketIO = (httpServer) => {
           from: socket.user._username,
           read: false,
         });
-
-        console.log(message);
 
         message = await message.save();
         socket.send(message);
