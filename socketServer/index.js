@@ -38,10 +38,10 @@ const addSocketIO = (httpServer) => {
 
   io.use(middleware);
 
-  function log() {
-    console.log("connected users: ");
-    io.sockets.sockets.forEach((s) => console.log(s.user._username));
-  }
+  // function log() {
+  //   console.log("connected users: ");
+  //   io.sockets.sockets.forEach((s) => console.log(s.user._username));
+  // }
 
   io.on("connection", async (socket) => {
     try {
@@ -68,7 +68,6 @@ const addSocketIO = (httpServer) => {
       socket.emit("connected", { messages: messages, users: usersWithStatus });
 
       socket.broadcast.emit("newUserConnected", socket.user._username);
-      log();
     } catch (e) {
       console.log(e);
     }
