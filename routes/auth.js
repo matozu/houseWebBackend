@@ -19,14 +19,12 @@ function validate(req) {
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
-    res.status(400).send(error.message);
-    return;
+    return res.status(400).send(error.message);
   }
 
   const user = await User.findOne({ username: req.body.username });
 
-  if (!user)
-    return res.status(400).send(req.body.username + " :invalid username!");
+  if (!user) return res.status(400).send("invalid username or password!");
 
   const isValidPassword = await bcrypt.compare(
     req.body.password,
@@ -39,14 +37,9 @@ router.post("/", async (req, res) => {
     return res
       .header("x-auth-token", token)
       .header("access-control-expose-headers", "x-auth-token")
-      .send({
-        username: user.username,
-        pk: privateKey
-          ? "private key from environment variable"
-          : "environment variable backendWebHouse_privateKey not found! using temporary privatekey",
-      });
+      .send(user);
   } else {
-    return res.status(400).send("invalid password");
+    return res.status(400).send("invalid username or password!");
   }
 });
 
