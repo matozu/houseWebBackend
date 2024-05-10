@@ -38,13 +38,14 @@ router.post("/", async (req, res) => {
     if (user) {
       return res.status(400).send("Username exist!");
     }
+
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
     const tmp_key = (Math.random() + "").split(".")[1];
     const link =
       "https://housewebbackend.onrender.com/api/register?key=" +
       tmp_key +
       "&user=" +
       req.body.username;
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
 
     let emailVerification = new EmailVerification({
       username: req.body.username,
@@ -54,10 +55,10 @@ router.post("/", async (req, res) => {
       createdAt: new Date(),
     });
 
-    emailVerification = await emailVerification.save();
-
-    sendMail(req.body.email, link);
-    return res.status(200).send(emailVerification);
+    emailVerification = await emailVerification.save().then(() => {
+      sendMail(req.body.email, link);
+      return res.status(200).send("email sent to " + req.body.email);
+    });
   } catch (error) {
     console.log(error);
   }
