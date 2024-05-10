@@ -73,7 +73,6 @@ const addSocketIO = (httpServer) => {
         1
       );
       socket.broadcast.emit("disconnected", socket.user._username);
-      log();
     });
 
     socket.on("postMessage", async (postedMessage) => {
