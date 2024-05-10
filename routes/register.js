@@ -81,9 +81,8 @@ router.get("/", async (req, res) => {
         password: emailVerification.password,
       });
 
-      newUser = await newUser.save();
-
-      return res.status(200).send(`
+      newUser = await newUser.save().then(() => {
+        return res.status(200).send(`
         <div style="text-align: center;">
           <h3>You are registered as a new user at</h3>
             <a href="https://housewebbackend.onrender.com/" style="display: block;">
@@ -91,6 +90,7 @@ router.get("/", async (req, res) => {
             </a>
         </div>
       `);
+      });
     } else {
       return res.status(400).send("Invalid registration request");
     }

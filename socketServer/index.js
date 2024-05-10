@@ -38,11 +38,6 @@ const addSocketIO = (httpServer) => {
 
   io.use(middleware);
 
-  // function log() {
-  //   console.log("connected users: ");
-  //   io.sockets.sockets.forEach((s) => console.log(s.user._username));
-  // }
-
   io.on("connection", async (socket) => {
     try {
       const messages = await Message.find({
@@ -78,7 +73,6 @@ const addSocketIO = (httpServer) => {
         1
       );
       socket.broadcast.emit("disconnected", socket.user._username);
-      log();
     });
 
     socket.on("postMessage", async (postedMessage) => {

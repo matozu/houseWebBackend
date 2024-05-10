@@ -1,0 +1,5 @@
+{
+  "jwtPrivateKey": null,
+  "mongodburi": "",
+  "mailkey": ""
+}
