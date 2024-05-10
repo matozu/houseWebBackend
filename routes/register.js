@@ -20,10 +20,10 @@ async function sendMail(to, link) {
     .sendMail({
       to: to,
       subject: "test",
-      text:
-        "housewebbackend has sent you a link to confirm your registration: " +
-        link +
-        "</br> The link will be active for 10 minutes.",
+      html: `
+      <p>Housewebbackend has sent you a link to confirm your registration: <a href="${link}">${link}</a></p>
+      <p>The link will be active for 10 minutes.</p>
+    `,
     })
     .then(() => {
       console.log("email sent to " + to);
